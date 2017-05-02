@@ -35,10 +35,4 @@ public class WebSocketSessionHolder implements SessionHolder
     {
 
     }
-
-    @Override
-    public void send(String data)
-    {
-
-    }
 }
