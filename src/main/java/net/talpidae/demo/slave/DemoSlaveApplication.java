@@ -18,19 +18,23 @@
 package net.talpidae.demo.slave;
 
 import com.google.inject.Singleton;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+
 import net.talpidae.base.insect.Slave;
 import net.talpidae.base.insect.config.SlaveSettings;
 import net.talpidae.base.server.Server;
 import net.talpidae.base.server.ServerConfig;
 import net.talpidae.base.util.Application;
+import net.talpidae.demo.slave.api.Demo;
 import net.talpidae.demo.slave.resource.Resource;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import java.io.IOException;
-import java.net.InetSocketAddress;
+
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 import static java.lang.System.exit;
 
@@ -72,7 +76,7 @@ public class DemoSlaveApplication implements Application
             log.info("server started on {}", bindAddress.toString());
 
             slaveSettings.setBindAddress(bindAddress);
-            slaveSettings.setRoute("demo");
+            slaveSettings.setRoute(Demo.class.getName());
             try
             {
                 slave.run();

@@ -15,41 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.talpidae.demo.slave.resource;
+package net.talpidae.demo.slave.api;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import net.talpidae.base.util.auth.AuthRequired;
-
-import javax.annotation.Resource;
-import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@AuthRequired
-@Singleton
-@Resource
+
 @Path("/")
-public class Demo
+public interface Demo
 {
+    @GET
+    @Path("/hello")
+    @Produces(MediaType.APPLICATION_JSON)
+    HelloMessage getHello();
+
+
     @AllArgsConstructor
-    public static class HelloMessage
+    class HelloMessage
     {
         @Getter
         @Setter
         private String say;
     }
-
-    @GET
-    @Path("/hello")
-    @Produces(MediaType.APPLICATION_JSON)
-    public HelloMessage getHello()
-    {
-        return new HelloMessage("hello");
-    }
-
 }

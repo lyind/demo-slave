@@ -19,13 +19,18 @@ package net.talpidae.demo.slave;
 
 
 import com.google.inject.AbstractModule;
-import lombok.extern.slf4j.Slf4j;
+import com.google.inject.TypeLiteral;
+
 import net.talpidae.base.Base;
+import net.talpidae.base.client.GenericLoadBalancingProxyWebTargetProvider;
 import net.talpidae.base.util.Application;
 import net.talpidae.base.util.auth.Authenticator;
 import net.talpidae.base.util.session.SessionService;
+import net.talpidae.demo.slave.api.Demo;
 import net.talpidae.demo.slave.util.auth.LocalAuthenticator;
 import net.talpidae.demo.slave.util.session.LocalSessionService;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
@@ -44,5 +49,8 @@ public class DemoSlaveApplicationModule extends AbstractModule
 
         bind(Authenticator.class).to(LocalAuthenticator.class);
         bind(SessionService.class).to(LocalSessionService.class);
+
+        bind(new TypeLiteral<Class<Demo>>() {}).toInstance(Demo.class);
+        bind(Demo.class).toProvider(new TypeLiteral<GenericLoadBalancingProxyWebTargetProvider<Demo>>() {});
     }
 }
