@@ -23,6 +23,8 @@ import com.google.inject.TypeLiteral;
 
 import net.talpidae.base.Base;
 import net.talpidae.base.client.GenericLoadBalancingProxyWebTargetProvider;
+import net.talpidae.base.insect.metrics.MetricsSink;
+import net.talpidae.base.insect.metrics.QueuedMetricsSink;
 import net.talpidae.base.util.Application;
 import net.talpidae.base.util.auth.Authenticator;
 import net.talpidae.base.util.session.SessionService;
@@ -52,5 +54,7 @@ public class DemoSlaveApplicationModule extends AbstractModule
 
         bind(new TypeLiteral<Class<Demo>>() {}).toInstance(Demo.class);
         bind(Demo.class).toProvider(new TypeLiteral<GenericLoadBalancingProxyWebTargetProvider<Demo>>() {});
+
+        bind(MetricsSink.class).to(QueuedMetricsSink.class);
     }
 }
