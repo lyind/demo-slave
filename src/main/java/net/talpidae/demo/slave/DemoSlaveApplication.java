@@ -43,8 +43,6 @@ import static java.lang.System.exit;
 @Slf4j
 public class DemoSlaveApplication implements Application
 {
-    private static final String[] resourcePackages = new String[]{Resource.class.getPackage().getName()};
-
     private final ServerConfig serverConfig;
 
     private final Server server;
@@ -67,7 +65,7 @@ public class DemoSlaveApplication implements Application
     @Override
     public void run()
     {
-        serverConfig.setJerseyResourcePackages(resourcePackages);
+        serverConfig.addJerseyResourcePackage(Resource.class.getPackage().getName());
         try
         {
             server.start();
