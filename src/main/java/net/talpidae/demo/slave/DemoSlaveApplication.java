@@ -25,7 +25,6 @@ import net.talpidae.base.server.Server;
 import net.talpidae.base.server.ServerConfig;
 import net.talpidae.base.util.Application;
 import net.talpidae.demo.slave.api.Demo;
-import net.talpidae.demo.slave.resource.Resource;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -65,7 +64,6 @@ public class DemoSlaveApplication implements Application
     @Override
     public void run()
     {
-        serverConfig.addJerseyResourcePackage(Resource.class.getPackage().getName());
         try
         {
             server.start();

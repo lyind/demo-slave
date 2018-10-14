@@ -22,13 +22,16 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 
 import net.talpidae.base.Base;
+import net.talpidae.base.client.ClientModule;
 import net.talpidae.base.client.GenericLoadBalancingProxyWebTargetProvider;
 import net.talpidae.base.insect.metrics.MetricsSink;
 import net.talpidae.base.insect.metrics.QueuedMetricsSink;
+import net.talpidae.base.resource.RestModule;
 import net.talpidae.base.util.Application;
 import net.talpidae.base.util.auth.Authenticator;
 import net.talpidae.base.util.session.SessionService;
 import net.talpidae.demo.slave.api.Demo;
+import net.talpidae.demo.slave.resource.DemoImpl;
 import net.talpidae.demo.slave.util.auth.LocalAuthenticator;
 import net.talpidae.demo.slave.util.session.LocalSessionService;
 
@@ -47,10 +50,15 @@ public class DemoSlaveApplicationModule extends AbstractModule
     @Override
     protected void configure()
     {
+        install(new ClientModule());
+        install(new RestModule());
+
         bind(Application.class).to(DemoSlaveApplication.class);
 
         bind(Authenticator.class).to(LocalAuthenticator.class);
         bind(SessionService.class).to(LocalSessionService.class);
+
+        bind(DemoImpl.class);
 
         bind(new TypeLiteral<Class<Demo>>() {}).toInstance(Demo.class);
         bind(Demo.class).toProvider(new TypeLiteral<GenericLoadBalancingProxyWebTargetProvider<Demo>>() {});

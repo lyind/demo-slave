@@ -26,6 +26,8 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.SecurityContext;
 
 import lombok.val;
 
@@ -49,7 +51,7 @@ public class DemoImpl implements Demo
 
 
     @Override
-    public HelloMessage getHello()
+    public HelloMessage getHello(@Context SecurityContext securityContext)
     {
         val random = new Random();
 
@@ -59,7 +61,7 @@ public class DemoImpl implements Demo
         if (random.nextInt(2) > 0)
         {
             builder.append(" and ")
-                    .append(demo.getHello().getSay());
+                    .append(demo.getHello(null).getSay());
         }
 
         return new HelloMessage(builder.toString());

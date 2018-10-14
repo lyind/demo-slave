@@ -17,30 +17,41 @@
 
 package net.talpidae.demo.slave.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.annotation.Resource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 
+@Resource
 @Path("/")
 public interface Demo
 {
     @GET
     @Path("/hello")
     @Produces(MediaType.APPLICATION_JSON)
-    HelloMessage getHello();
+    HelloMessage getHello(@Context SecurityContext securityContext);
 
 
-    @AllArgsConstructor
     class HelloMessage
     {
         @Getter
-        @Setter
-        private String say;
+        private final String say;
+
+        @JsonCreator
+        @Builder(toBuilder = true)
+        public HelloMessage(@JsonProperty("say") String say)
+        {
+            this.say = say;
+        }
     }
 }
